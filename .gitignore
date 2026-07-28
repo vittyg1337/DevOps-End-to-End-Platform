@@ -1,0 +1,27 @@
+# Credentials and local environment files
+*.pem
+*.key
+*.pfx
+*.tfvars
+*.tfvars.json
+*accessKeys*.csv
+.env
+.env.*
+!.env.example
+
+# Terraform generated files and state
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Ansible local inventory and retry files
+ansible/inventory.ini
+*.retry
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -12,24 +12,26 @@ Simple static web application served from an Nginx container.
 ## Features
 
 - Containerized deployment
-- Network port mapping
+- Unprivileged Nginx runtime
+- JSON health endpoint
+- Read-only Compose runtime with dropped Linux capabilities
 - Lightweight static web server
-- GitHub Actions Docker build validation
-
-## Local Build
-
-```powershell
-docker build -t docker-webapp ./app/docker-webapp
-```
+- GitHub Actions build and smoke-test validation
 
 ## Local Run
 
 ```powershell
-docker run --rm -p 8080:80 docker-webapp
+docker compose up --build --wait
 ```
 
-Open:
+Open `http://localhost:8080`. Health information is available from
+`http://localhost:8080/health`.
 
-```text
-http://localhost:8080
+## Verification
+
+```powershell
+pwsh ./tests/smoke.ps1
 ```
+
+The smoke test verifies the home page, health response, and non-root container
+user, then removes the test environment.
