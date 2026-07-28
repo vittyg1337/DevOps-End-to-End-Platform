@@ -10,17 +10,22 @@
 
 ## Overview
 
-This project demonstrates a complete modern DevOps workflow from source code management to deployment, monitoring, infrastructure provisioning, and configuration management.
+This portfolio repository consolidates hands-on labs for application
+containerization, CI validation, AWS infrastructure provisioning, Kubernetes
+deployment, monitoring, and configuration management.
 
-The platform integrates cloud infrastructure, containerization, CI/CD pipelines, orchestration, monitoring, and automation into a single end-to-end DevOps environment.
-
-The objective was to build a practical DevOps platform using industry-standard tools rather than isolated technology demonstrations.
+The local application path is reproducible from a clean clone and is tested with
+Docker Compose. The AWS, Kubernetes, monitoring, and Ansible sections are
+separate learning environments with source-controlled configurations and
+implementation evidence; they are not represented as one continuously running
+production platform.
 
 ---
 
 ## Business Problem
 
-Modern applications require reliable infrastructure, automated deployments, monitoring, and operational visibility.
+Modern applications require repeatable builds, controlled infrastructure,
+health verification, monitoring, and clear operating documentation.
 
 This project demonstrates how a DevOps engineer can:
 
@@ -35,10 +40,27 @@ using modern cloud-native technologies.
 
 ---
 
+## Quick Start
+
+Requirements: Docker Desktop with Docker Compose and PowerShell 7.
+
+```powershell
+git clone https://github.com/vittyg1337/devops-cloud-platform-aws-kubernetes-terraform.git
+cd devops-cloud-platform-aws-kubernetes-terraform
+pwsh ./tests/smoke.ps1
+```
+
+The test builds the image, waits for the service to become healthy, verifies the
+home page and `/health` response, confirms the container is not running as root,
+and removes the test environment.
+
+---
+
 ## Architecture
 
-<img width="166" height="1811" alt="Architecture-Diagram drawio" src="https://github.com/user-attachments/assets/8ef1ee5d-3983-45bb-a753-b66879df4d14" />
-
+See [docs/architecture.md](docs/architecture.md) for the readable Mermaid
+diagram, component responsibilities, verification methods, and security
+boundaries.
 
 ---
 
@@ -75,36 +97,43 @@ using modern cloud-native technologies.
 ## Project Outcomes
 
 * Provisioned AWS cloud infrastructure using Terraform
-* Built automated CI/CD pipelines using GitHub Actions
-* Containerized applications using Docker
-* Deployed workloads using Kubernetes
-* Implemented monitoring using Prometheus
-* Visualized metrics using Grafana dashboards
-* Automated Linux server configuration using Ansible
+* Built a GitHub Actions workflow for Terraform validation and container smoke testing
+* Containerized an Nginx service with a non-root runtime and health endpoint
+* Added repeatable Docker Compose startup and teardown
+* Added Kubernetes manifests with probes, resource controls, and a restricted security context
+* Documented Prometheus and Grafana installation through Helm
+* Added idempotent Ansible automation for Docker and Nginx
 * Documented over 70 implementation screenshots
-* Built a complete end-to-end DevOps workflow
+* Recorded troubleshooting evidence alongside source-controlled configuration
 
 ---
 
 ## Project Components
 
-### Application And CI Source
+### Consolidated Implementation Source
 
-Merged implementation files are included in this repository so the screenshots are backed by source-controlled project work.
+The implementation files are consolidated in this repository so the lab evidence
+is backed by reproducible, source-controlled configuration.
 
 **Key files:**
 
 * `app/docker-webapp/Dockerfile`
 * `app/docker-webapp/index.html`
+* `compose.yaml`
+* `tests/smoke.ps1`
 * `.github/workflows/docker-webapp.yml`
+* `terraform/`
+* `kubernetes/`
+* `monitoring/`
+* `ansible/`
 * `docs/docker-webapp-project-summary.md`
 
 **Skills:**
 
 * Dockerfile authoring
 * Static web app containerization
-* GitHub Actions workflow configuration
-* Docker image build validation
+* GitHub Actions Docker and Terraform validation
+* Infrastructure and configuration automation
 
 ---
 
@@ -123,7 +152,9 @@ Built and managed Linux servers using SSH, package management, permissions, proc
 
 ### Docker Web Application
 
-Created Docker images and deployed Nginx containers using Dockerfiles, networking, and volume mounts.
+Built a non-root Nginx container with a JSON health endpoint. Docker Compose
+runs it with a read-only filesystem, no new privileges, and all Linux
+capabilities dropped.
 
 **Skills:**
 
@@ -149,7 +180,11 @@ Provisioned and managed public-facing EC2 infrastructure and deployed containeri
 
 ### Terraform Infrastructure
 
-Created Infrastructure as Code workflows using Terraform to provision AWS resources.
+Created Infrastructure as Code that provisions an Ubuntu EC2 instance and
+security group. The consolidated configuration restricts SSH by input CIDR,
+enforces IMDSv2, encrypts the root volume, and discovers a current Ubuntu AMI.
+
+**Source:** [`terraform/`](terraform/)
 
 **Skills:**
 
@@ -162,7 +197,8 @@ Created Infrastructure as Code workflows using Terraform to provision AWS resour
 
 ### GitHub Actions CI/CD
 
-Implemented automated build pipelines triggered from GitHub commits.
+Implemented automated checks for Terraform formatting and validation, container
+startup, application responses, and non-root execution.
 
 **Skills:**
 
@@ -175,7 +211,11 @@ Implemented automated build pipelines triggered from GitHub commits.
 
 ### Kubernetes Homelab
 
-Deployed and managed applications using Deployments, Pods, and Services.
+Deployed and managed applications using Deployments, Pods, and Services. The
+source-controlled Minikube manifests include two replicas, health probes,
+resource limits, and NodePort exposure.
+
+**Source:** [`kubernetes/`](kubernetes/)
 
 **Skills:**
 
@@ -189,7 +229,10 @@ Deployed and managed applications using Deployments, Pods, and Services.
 
 ### Monitoring Stack
 
-Installed and configured Prometheus and Grafana for metrics collection and visualization.
+Installed and configured Prometheus and Grafana for metrics collection and
+visualization with a reproducible Helm values file and operating instructions.
+
+**Source:** [`monitoring/`](monitoring/)
 
 **Skills:**
 
@@ -203,7 +246,10 @@ Installed and configured Prometheus and Grafana for metrics collection and visua
 
 ### Ansible Automation
 
-Automated Linux server configuration using Ansible inventories and playbooks.
+Automated Docker installation, service management, and Nginx container
+deployment with an idempotent Ansible playbook and example inventory.
+
+**Source:** [`ansible/`](ansible/)
 
 **Skills:**
 
@@ -311,6 +357,8 @@ Additional learning artifacts from earlier DevOps practice repositories were mer
 * Advanced monitoring dashboards
 * Infrastructure scaling
 * Additional cloud services
+* Publish versioned application images to a container registry
+* Add automated linting for Kubernetes and Ansible configuration
 
 ---
 
